@@ -25,6 +25,7 @@ export async function insertStudy(params: StudyRecordType) {
 }
 
 export async function deleteStudy(id: string) {
-  const { res } = await supabase.from(TABLE_NAME).delete().eq("id", id);
-  console.log(res);
+  const { data, error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
+  console.log(data);
+  if (error) throw error;
 }
