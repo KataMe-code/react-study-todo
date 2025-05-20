@@ -37,7 +37,7 @@ function App() {
     setContent(e.target.value);
   };
   const onChangeTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTime(e.target.valueAsNumber);
+    setTime(Number(e.target.valueAsNumber));
   };
 
   const subscribe = async () => {
@@ -47,13 +47,14 @@ function App() {
     }
 
     try {
-      const newTodo: StudyRecordType = { title: content, time: time };
       setLoading(true);
+      const newTodo: StudyRecordType = { title: content, time: time };
       await insertStudy(newTodo);
-      fetchStudy();
+      await fetchStudy();
     } catch (err) {
       console.error(err);
     }
+
     setContent("");
     setTime(0);
     setError(false);
@@ -64,7 +65,7 @@ function App() {
       setLoading(true);
       const id = await fetchStudyIdFromTitle(v);
       await deleteStudy(id);
-      fetchStudy();
+      await fetchStudy();
     } catch (err) {
       console.error(err);
     }
@@ -84,10 +85,8 @@ function App() {
         {todos.map((data) => {
           return (
             <li key={data.id}>
-              <p>
-                {data.title} : {data.time}時間 :
-                <button onClick={() => deleteTodo(data.title)}>削除</button>
-              </p>
+              <p>{data.title}</p> : <p>{data.time}時間 :</p>
+              <button onClick={() => deleteTodo(data.title)}>削除</button>
             </li>
           );
         })}
